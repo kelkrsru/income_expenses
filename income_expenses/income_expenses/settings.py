@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'companies',
     'core',
     'mainpage',
+    'incomes',
 ]
 
 MIDDLEWARE = [

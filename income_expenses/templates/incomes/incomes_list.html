@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Список доходов{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <table class="table table-striped align-baseline" id="main-table">
+      <thead>
+        <tr>
+          <th scope="col" width="10%" id="num">#</th>
+          <th scope="col" width="20%" id="prod">Дата</th>
+          <th scope="col" width="10%" id="print-form">Сумма</th>
+          <th scope="col" width="15%" id="price">Компания</th>
+          <th scope="col" width="20%" id="unit">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if incomes %}
+          {% for income in incomes %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th> {# Номер строки #}
+              <td>{{ income.date }}</td> {# Дата дохода #}
+              <td>{{ income.summa }}</td> {# Сумма дохода #}
+              <td>{{ income.company }}</td> {# Контрагент дохода #}
+              <td> {# Действия #}
+                <a
+                        href="{% url 'incomes:incomes_update' income.pk %}"
+                        class="btn btn-primary shadow-none btn-small"
+                        title="Изменить"
+                >
+                  🗘
+                </a>
+                <a
+                        href="{% url 'incomes:incomes_delete' income.pk %}"
+                        class="btn btn-danger shadow-none btn-small"
+                        title="Удалить"
+                >
+                  ✖
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="5">Список доходов пуст</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

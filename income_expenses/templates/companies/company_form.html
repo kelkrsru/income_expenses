@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if form_company.instance.pk %}
+    Изменить компанию
+  {% else %}
+    Добавить новую компанию
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          {% if form_company.instance.pk %}
+            Изменить компанию
+          {% else %}
+            Добавить компанию
+          {% endif %}
+        </div>
+          <div class="card-body">
+          {% load user_filters %} {# Загружаем фильтры #}
+              {% if form_company.errors %}
+                  {% for field in form_company %}
+                    {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                        {{ error|escape }}
+                      </div>
+                    {% endfor %}
+                  {% endfor %}
+                  {% for error in form_company.non_field_errors %}
+                    <div class="alert alert-danger">
+                      {{ error|escape }}
+                    </div>
+                  {% endfor %}
+              {% endif %}
+              {% if form_requisites.errors %}
+                  {% for field in form_requisites %}
+                    {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                        {{ error|escape }}
+                      </div>
+                    {% endfor %}
+                  {% endfor %}
+                  {% for error in form_requisites.non_field_errors %}
+                    <div class="alert alert-danger">
+                      {{ error|escape }}
+                    </div>
+                  {% endfor %}
+              {% endif %}
+              <span class="fw-bold">Общие сведения</span>
+              <form method="post" action="">
+              {% csrf_token %}
+              {# Выводим поля в цикле, по отдельности #}
+              {% for field in form_company %}
+                <div class="form-group row my-3">
+                  <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                      {% if field.field.required %}
+                        <span class="required text-danger">*</span>
+                      {% endif %}
+                  </label>
+                  {# К полю ввода добавляем атрибут class #}
+                  {% if field|fieldtype == 'Select' %}
+                    {{ field|addclass:'form-select' }}
+                  {% elif field|widgettype == 'CheckboxInput' %}
+                    <div class="form-check form-switch mt-1">
+                      {{ field|addclass:'form-check-input' }}
+                    </div>
+                  {% else %}
+                    {{ field|addclass:'form-control' }}
+                  {% endif %}
+                  {% if field.help_text %}
+                    <small
+                       id="{{ field.id_for_label }}-help"
+                       class="form-text text-muted"
+                    >
+                      {{ field.help_text|safe }}
+                    </small>
+                  {% endif %}
+                </div>
+              {% endfor %}
+              <span class="fw-bold">Реквизиты компании</span>
+              {% for field in form_requisites %}
+                <div class="form-group row my-3">
+                  <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                      {% if field.field.required %}
+                        <span class="required text-danger">*</span>
+                      {% endif %}
+                  </label>
+                  {# К полю ввода добавляем атрибут class #}
+                  {% if field|fieldtype == 'Select' %}
+                    {{ field|addclass:'form-select' }}
+                  {% else %}
+                    {{ field|addclass:'form-control' }}
+                  {% endif %}
+                  {% if field.name == "inn" %}
+                    <button class="btn btn-primary mt-2" type="button" onclick="find_by_inn()">
+                      Поиск по ИНН
+                    </button>
+                  {% endif %}
+                  {% if field.help_text %}
+                    <small
+                       id="{{ field.id_for_label }}-help"
+                       class="form-text text-muted"
+                    >
+                      {{ field.help_text|safe }}
+                    </small>
+                  {% endif %}
+                </div>
+              {% endfor %}
+              <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                  {% if form_company.instance.pk %}
+                    Изменить
+                  {% else %}
+                    Добавить
+                  {% endif %}
+                </button>
+                <a href="{% url 'companies:companies_list' %}" class="btn btn-danger">Отмена</a>
+              </div>
+            </form>
+          </div> <!-- card body -->
+        </div> <!-- card -->
+      </div> <!-- col -->
+  </div> <!-- row -->
+{% endblock %}
+
+{% block user_scripts %}
+  <script>
+    function find_by_inn() {
+        const inn = document.getElementById("id_inn").value
+      $.ajax({
+        url: "{% url 'companies:find_by_inn' %}",
+        type: "POST",
+        data: {"inn": inn, "csrfmiddlewaretoken": "{{csrf_token}}"},
+    })
+      .done(function (response) {
+        if (response.status === "not_found") {
+          alert("По данному ИНН компания не найдена");
+        }
+        else if (response.status === "found") {
+          document.getElementById("id_kpp").value = response.kpp;
+          document.getElementById("id_ogrn").value = response.ogrn;
+          document.getElementById("id_short_name").value = response.short_name;
+          document.getElementById("id_full_name").value = response.full_name;
+          document.getElementById("id_position_director").value = response.position_director;
+          document.getElementById("id_name_director").value = response.name_director;
+          document.getElementById("id_legal_address").value = response.legal_address;
+          document.getElementById("id_date_reg").value = response.date_reg;
+        }
+        else {
+          alert("Запрос вернул неизвестный статус");
+        }
+      })
+      .fail(function () {
+        alert('Ошибка при поиске компании по ИНН');
+      });
+    }
+  </script>
+{% endblock %}

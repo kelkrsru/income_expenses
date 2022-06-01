@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Список компаний{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <table class="table table-striped align-baseline" id="main-table">
+      <thead>
+        <tr>
+          <th scope="col" width="10%" id="num">#</th>
+          <th scope="col" width="20%" id="prod">Наименование</th>
+          <th scope="col" width="10%" id="print-form">ИНН</th>
+          <th scope="col" width="15%" id="price">Телефон</th>
+          <th scope="col" width="15%" id="count">Электронная почта</th>
+          <th scope="col" width="10%" id="count">Моя компания</th>
+          <th scope="col" width="20%" id="unit">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if companies %}
+          {% for company in companies %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th> {# Номер строки #}
+              <td>{{ company.name }}</td> {# Наименование компании #}
+              <td>{{ company.requisites.inn }}</td> {# ИНН компании #}
+              <td><a href="tel:{{ company.phone }}">{{ company.phone }}</a></td> {# Телефон компании #}
+              <td><a href="mailto:{{ company.email }}">{{ company.email }}</a></td> {# Email компании #}
+              <td>{{ company.is_my_company }}</td> {# Признак моей компании #}
+              <td> {# Действия #}
+                <a
+                        href="{% url 'companies:company_update' company.pk %}"
+                        class="btn btn-primary shadow-none btn-small"
+                        title="Изменить"
+                >
+                  🗘
+                </a>
+                <a
+                        href=""
+                        class="btn btn-danger shadow-none btn-small"
+                        title="Удалить"
+                >
+                  ✖
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7">Список компаний пуст</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

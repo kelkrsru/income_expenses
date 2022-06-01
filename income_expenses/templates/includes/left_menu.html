@@ -1,0 +1,24 @@
+<aside class="col-12 col-md-3">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex justify-content-between
+    align-items-start">
+      <a href="{% url 'mainpage:index' %}" class="fw-bold">Главная</a>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-start">
+      <span class="fw-bold">Компании</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-center ps-5">
+      <a href="{% url 'companies:company_add' %}">Добавить компанию</a>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-center ps-5">
+      <a href="{% url 'companies:companies_list' %}">Список компаний</a>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-center ps-5">
+      <a href="{% url 'companies:company_type_list' %}">Типы компаний</a>
+    </li>
+  </ul>
+</aside>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление объекта {{ object }}{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p>Вы уверены, что хотите удалить "{{ object }}"?</p>
+    <input class="btn btn-danger" type="submit" value="Удалить">
+    <button onclick="window.history.back();" class="btn btn-primary ms-2" type="reset">Отмена</button>
+  </form>
+{% endblock %}

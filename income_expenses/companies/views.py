@@ -63,6 +63,13 @@ def company_update(request, pk):
     return redirect(reverse('companies:companies_list'))
 
 
+class DeleteCompanyView(DeleteView):
+    """Delete company."""
+    model = Company
+    template_name = 'confirm_delete.html'
+    success_url = reverse_lazy('companies:companies_list')
+
+
 def company_type_list(request):
     """Company types list."""
     template = 'companies/company_type_list.html'

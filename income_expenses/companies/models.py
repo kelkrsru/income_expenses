@@ -1,7 +1,9 @@
 from django.db import models
 
+from core.models import CreatedUpdatedModel
 
-class CompanyType(models.Model):
+
+class CompanyType(CreatedUpdatedModel):
     """Model Type Company."""
     name = models.CharField(
         verbose_name='Наименование',
@@ -19,7 +21,7 @@ class CompanyType(models.Model):
         return self.name
 
 
-class Requisites(models.Model):
+class Requisites(CreatedUpdatedModel):
     """Model Requisites Company."""
     inn = models.CharField(
         verbose_name='ИНН',
@@ -84,7 +86,7 @@ class Requisites(models.Model):
         return self.inn
 
 
-class Company(models.Model):
+class Company(CreatedUpdatedModel):
     """Model Company."""
     name = models.CharField(
         verbose_name='Наименование компании',

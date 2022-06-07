@@ -130,3 +130,4 @@ dmypy.json
 
 # Pucharm
 .idea/
+/income_expenses/sent_emails/

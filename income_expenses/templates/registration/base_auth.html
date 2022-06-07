@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    {% include 'includes/meta_tags.html' %}
+    <title>{% block title %}Приложение "Доходы и расходы"{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      {% include 'includes/header.html' %}
+    </header>
+    <main>
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8 p-5">
+            <div class="card">
+              <div class="card-header">
+                {% block card_header %}
+
+                {% endblock %}
+              </div>
+              <div class="card-body">
+                {% block card_body %}
+
+                {% endblock %}
+              </div>
+              <div class="card-footer d-flex justify-content-end">
+                {% block card_footer %}
+                  <a href="{% url 'mainpage:index' %}">
+                    Вернуться на главную
+                  </a>
+                {% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      {% include 'includes/footer.html' %}
+    </footer>
+    {% include 'includes/scripts.html' %}
+    {% block user_scripts %}
+    {% endblock %}
+  </body>
+</html>

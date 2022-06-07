@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'core',
     'mainpage',
     'incomes',
+    'expenses',
 ]
 
 MIDDLEWARE = [
@@ -32,6 +33,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'global_login_required.GlobalLoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = "income_expenses.urls"
@@ -103,3 +105,18 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL = 'login'
+PUBLIC_VIEWS = [
+    'django.contrib.auth.views.LoginView',
+    'django.contrib.auth.views.LogoutView',
+    'django.contrib.auth.views.PasswordResetView',
+    'django.contrib.auth.views.PasswordResetDoneView',
+    'django.contrib.auth.views.PasswordResetConfirmView',
+    'django.contrib.auth.views.PasswordResetCompleteView',
+]
+
+# Mail server emulation
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')

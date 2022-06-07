@@ -1,12 +1,7 @@
 from django import forms
 
 from .models import Company, CompanyType, Requisites
-
-
-class DateInput(forms.DateInput):
-    """Custom field date."""
-    input_type = 'date'
-    input_formats = ['%Y-%m-%d']
+from core.forms import DateInput
 
 
 class CompanyForm(forms.ModelForm):

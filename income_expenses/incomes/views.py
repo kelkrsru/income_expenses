@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 
 from .models import Income
+from .forms import IncomeForm
 
 
 def incomes_list(request):
@@ -17,18 +18,17 @@ def incomes_list(request):
 
 class AddIncomeView(CreateView):
     """Add income."""
-    model = Income
     template_name = 'incomes/incomes_form.html'
+    form_class = IncomeForm
     success_url = reverse_lazy('incomes:incomes_list')
-    fields = ['date', 'summa', 'company']
 
 
 class UpdateIncomeView(UpdateView):
     """Update income."""
     model = Income
     template_name = 'incomes/incomes_form.html'
+    form_class = IncomeForm
     success_url = reverse_lazy('incomes:incomes_list')
-    fields = ['date', 'summa', 'company']
 
 
 class DeleteIncomeView(DeleteView):

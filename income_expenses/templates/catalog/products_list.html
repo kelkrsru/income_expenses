@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог товаров/услуг{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="card">
+      <div class="card-header">Фильтр</div>
+      <div class="card-body">
+        <div class="row row-cols-3">
+          <div class="col">
+            <select class="form-select" id="select-groups" onchange="create_link_filter(this.value)">
+              {% for group in groups %}
+                {% if request.GET.group|add:"0" == group.pk %}
+                  <option value="{{ group.pk }}" selected>{{ group.name }}</option>
+                {% else %}
+                  <option value="{{ group.pk }}">{{ group.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col">
+            <a id="link_filter" class="btn btn-primary" href="{% url 'catalog:products_list' %}?group={{ groups.first.pk }}" title="Применить">✓</a>
+            <a id="link_filter" class="btn btn-danger" href="{% url 'catalog:products_list' %}" title="Сбросить">✗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <table class="table table-striped align-baseline" id="main-table">
+      <thead>
+        <tr>
+          <th scope="col" width="5%">#</th>
+          <th scope="col" width="23%">Наименование</th>
+          <th scope="col" width="30%">Описание</th>
+          <th scope="col" width="15%">Группа</th>
+          <th scope="col" width="6%">Ед. изм.</th>
+          <th scope="col" width="8%">Цена</th>
+          <th scope="col" width="12%">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if object_list %}
+          {% for product in object_list %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th> {# Номер строки #}
+              <td>{{ product.name }}</td> {# Наименование товара #}
+              <td>{{ product.description }}</td> {# Описание товара #}
+              <td> {# Группа товара #}
+                {% if not product.group.all %}
+                  Не задана
+                {% else %}
+                  {% for group in product.group.all %}
+                    🗂 {{ group.name }}<br>
+                  {% endfor %}
+                {% endif %}
+              </td>
+              <td>{{ product.unit }}</td> {# Единица измерения товара #}
+              <td>{{ product.price }}</td> {# Цена товара #}
+              <td> {# Действия #}
+                <a
+                        href="{% url 'catalog:product_update' product.pk %}"
+                        class="btn btn-primary shadow-none btn-small"
+                        title="Изменить"
+                >
+                  🗘
+                </a>
+                <a
+                        href="{% url 'catalog:product_delete' product.pk %}"
+                        class="btn btn-danger shadow-none btn-small"
+                        title="Удалить"
+                >
+                  ✖
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7">Список товаров пуст</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+{% block user_scripts %}
+  <script>
+    function create_link_filter(select_value){
+        document.getElementById("link_filter").href = "{% url 'catalog:products_list'%}?group=" + select_value;
+    }
+    </script>
+{% endblock %}

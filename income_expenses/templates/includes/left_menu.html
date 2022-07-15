@@ -47,5 +47,26 @@
     align-items-center ps-5">
       <a href="{% url 'companies:company_type_list' %}">Типы компаний</a>
     </li>
+
+    <li class="list-group-item d-flex justify-content-between
+    align-items-start">
+      <span class="fw-bold">Каталог</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-center ps-5">
+      <a href="{% url 'catalog:product_add' %}">Добавить товар</a>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-center ps-5">
+      <a href="{% url 'catalog:products_list' %}">Список товаров</a>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-center ps-5">
+      <a href="{% url 'catalog:units_list' %}">Ед. измерения</a>
+    </li>
+    <li class="list-group-item d-flex justify-content-between
+    align-items-center ps-5">
+      <a href="{% url 'catalog:groups_list' %}">Разделы</a>
+    </li>
   </ul>
 </aside>

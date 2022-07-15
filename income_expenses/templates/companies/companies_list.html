@@ -25,7 +25,13 @@
               <td>{{ company.requisites.inn }}</td> {# ИНН компании #}
               <td><a href="tel:{{ company.phone }}">{{ company.phone }}</a></td> {# Телефон компании #}
               <td><a href="mailto:{{ company.email }}">{{ company.email }}</a></td> {# Email компании #}
-              <td>{{ company.is_my_company }}</td> {# Признак моей компании #}
+              <td class="text-center">
+                {% if company.is_my_company %}
+                  ✅
+                {% else %}
+                  ❌
+                {% endif %}
+              </td> {# Признак моей компании #}
               <td> {# Действия #}
                 <a
                         href="{% url 'companies:company_update' company.pk %}"

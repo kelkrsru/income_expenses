@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'mainpage',
     'incomes',
     'expenses',
+    'catalog',
 ]
 
 MIDDLEWARE = [
